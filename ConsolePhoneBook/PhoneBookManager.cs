@@ -1,5 +1,4 @@
-﻿using Convert;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -64,9 +63,9 @@ namespace ConsolePhoneBook
             Console.WriteLine("1.일반 2.대학 3.회사");
             Console.Write("선택 >>");
             int a = int.Parse(Console.ReadLine());
-            string name, phonenum, brith,major,company;
+            string name, phonenum, brith, major, company;
             int year;
-            
+
             if (a == 1)
             {
                 InputInfo(out name, out phonenum, out brith);
@@ -86,25 +85,25 @@ namespace ConsolePhoneBook
                 major = Console.ReadLine();
                 Console.Write("학년을 입력하세요:");
                 year = int.Parse(Console.ReadLine());
-                
-                    uniinfoStorage[unicurcnt++] = new PhoneUnivInfo(name, phonenum, brith, major, year);
+
+                uniinfoStorage[unicurcnt++] = new PhoneUnivInfo(name, phonenum, brith, major, year);
 
             }
             else if (a == 3)
             {
                 InputInfo(out name, out phonenum, out brith);
                 Console.Write("회사를 입력하세요: ");
-                company= Console.ReadLine();
+                company = Console.ReadLine();
                 cominfoStorage[comcurcnt++] = new PhoneCompanyInfo(name, phonenum, brith, company);
             }
         }
-       
+
 
         public void ListData()
         {
             Console.WriteLine("확인하고 싶은 리스트가 어디입니까(1.일반 2. 학교, 3.회사)");
             int a = int.Parse(Console.ReadLine());
-          
+
             if (a == 1)
             {
                 if (curcnt == 0)
@@ -118,7 +117,8 @@ namespace ConsolePhoneBook
                 }
             }
 
-            else if (a == 2){
+            else if (a == 2)
+            {
                 if (unicurcnt == 0)
                 {
                     Console.WriteLine("입력된 데이터가 없습니다.");
@@ -142,8 +142,8 @@ namespace ConsolePhoneBook
                 }
             }
         }
-            
-        
+
+
         public void SearchData()
         {
             Console.WriteLine("주소록을 검색을 시작합니다........");
@@ -170,7 +170,7 @@ namespace ConsolePhoneBook
             //    Console.WriteLine($"총 {findCnt}명이 검색되었습니다.");
             //}
             #endregion
-            
+
             int data = SearchName();
             if (data < 0)
             {
@@ -178,9 +178,9 @@ namespace ConsolePhoneBook
             }
             else
             {
-                if(count==1)
-                Console.WriteLine(infoStorage[data].ToString());
-                else if(count==2)
+                if (count == 1)
+                    Console.WriteLine(infoStorage[data].ToString());
+                else if (count == 2)
                     Console.WriteLine(uniinfoStorage[data].ToString());
                 else if (count == 3)
                     Console.WriteLine(cominfoStorage[data].ToString());
@@ -203,25 +203,25 @@ namespace ConsolePhoneBook
 
 
             for (int j = 0; j < unicurcnt; j++)
-            
+
+            {
+                if (uniinfoStorage[j].Name.Replace(" ", "").CompareTo(SearchName) == 0)
                 {
-                    if (uniinfoStorage[j].Name.Replace(" ", "").CompareTo(SearchName) == 0)
-                    {
-                        count = 2;
-                        return j;
-                    }
+                    count = 2;
+                    return j;
                 }
+            }
 
             for (int k = 0; k < comcurcnt; k++)
+            {
+                if (cominfoStorage[k].Name.Replace(" ", "").CompareTo(SearchName) == 0)
                 {
-                    if (cominfoStorage[k].Name.Replace(" ", "").CompareTo(SearchName) == 0)
-                    {
-                        count = 3;
-                        return k;
-                    }
+                    count = 3;
+                    return k;
                 }
+            }
 
-                return -1;
+            return -1;
 
         }
 
@@ -229,34 +229,34 @@ namespace ConsolePhoneBook
         {
             for (int i = 0; i < curcnt; i++)
             {
-                        if (infoStorage[i].Name.Replace(" ", "").CompareTo(name) == 0)
-                        {
-                            count = 1;
-                            return i; //검색된 이름의 위치(순서)
-                        }   
+                if (infoStorage[i].Name.Replace(" ", "").CompareTo(name) == 0)
+                {
+                    count = 1;
+                    return i; //검색된 이름의 위치(순서)
+                }
             }
 
 
-            for (int j = 0; j < unicurcnt; j++) 
+            for (int j = 0; j < unicurcnt; j++)
+            {
+                if (uniinfoStorage[j].Name.Replace(" ", "").CompareTo(name) == 0)
                 {
-                    if (uniinfoStorage[j].Name.Replace(" ", "").CompareTo(name) == 0)
-                    {
-                        count = 2;
-                        return j;
-                    }
+                    count = 2;
+                    return j;
                 }
+            }
 
             for (int k = 0; k < comcurcnt; k++)
+            {
+                if (cominfoStorage[k].Name.Replace(" ", "").CompareTo(name) == 0)
                 {
-                    if (cominfoStorage[k].Name.Replace(" ", "").CompareTo(name) == 0)
-                    {
-                        count = 3;
-                        return k;
-                    }
+                    count = 3;
+                    return k;
                 }
-
-                return -1;
             }
+
+            return -1;
+        }
         public void DeleteData()
         {
             Console.WriteLine("주소록을 삭제을 시작합니다........");
@@ -268,14 +268,38 @@ namespace ConsolePhoneBook
             }
             else
             {
-                for (int i = data; i < curcnt; i++)
-                {
-                    infoStorage[i] = infoStorage[i + 1];
+                if (count == 1) {
+                    for (int i = data; i < curcnt; i++)
+                    {
+                        infoStorage[i] = infoStorage[i + 1];
+                    }
+                    curcnt--;
+                    Console.WriteLine("주소록 삭제가 완료되었습니다.");
                 }
-                curcnt--;
-                Console.WriteLine("주소록 삭제가 완료되었습니다.");
-                
+                    
+                else if (count == 2)
+                {
+                    for (int i = data; i < unicurcnt; i++)
+                    {
+                        uniinfoStorage[i] = uniinfoStorage[i + 1];
+                    }
+                    unicurcnt--;
+                    Console.WriteLine("주소록 삭제가 완료되었습니다.");
+                }
+                    
+                else if (count == 3)
+                {
+                    for (int i = data; i < comcurcnt; i++)
+                    {
+                        cominfoStorage[i] = cominfoStorage[i + 1];
+                    }
+                    comcurcnt--;
+                    Console.WriteLine("주소록 삭제가 완료되었습니다.");
+                }
+                   
+
             }
         }
     }
 }
+
