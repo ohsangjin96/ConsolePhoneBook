@@ -18,9 +18,9 @@ namespace ConsolePhoneBook
         int count = 0;//search에서 사용
         public void ShowMenu()
         {
-            Console.WriteLine("-------------------주소록----------------------");
-            Console.WriteLine("1.입력 | 2. 목록 | 3. 검색 | 4. 삭제 | 5.종료");
-            Console.WriteLine("-----------------------------------------------");
+            Console.WriteLine("-------------------주소록-------------------------------");
+            Console.WriteLine("1.입력 | 2. 목록 | 3. 검색 | 4. 삭제 | 5.정렬 | 6. 종료 |");
+            Console.WriteLine("--------------------------------------------------------");
             Console.Write("선택 : ");
         }
         //Trim은 공백제거(가운데 뛰어쓰기는 제거불가),Replace(" ","")공백제거(가운데 뛰어쓰기까지 제거)
@@ -36,10 +36,10 @@ namespace ConsolePhoneBook
             }
             else
             {
-                int data = SearchName(name);
+                int data = SearchName(name); //중복확인 출력
                 if (data > -1)
                 {
-                    Console.WriteLine("이미 등록된 이름입니다. 다른 이름으로 입려하세요");
+                    Console.WriteLine("이미 등록된 이름입니다. 다른 이름으로 입력하세요");
 
 
                 }
@@ -96,10 +96,10 @@ namespace ConsolePhoneBook
                 company = Console.ReadLine();
                 cominfoStorage[comcurcnt++] = new PhoneCompanyInfo(name, phonenum, brith, company);
             }
-        }
+        }//정보입력
 
 
-        public void ListData()
+        public void ListData()//정보확인
         {
             Console.WriteLine("확인하고 싶은 리스트가 어디입니까(1.일반 2. 학교, 3.회사)");
             int a = int.Parse(Console.ReadLine());
@@ -144,7 +144,7 @@ namespace ConsolePhoneBook
         }
 
 
-        public void SearchData()
+        public void SearchData()//정보찾기
         {
             Console.WriteLine("주소록을 검색을 시작합니다........");
             #region 사람을 여러명 찾을때
@@ -223,7 +223,7 @@ namespace ConsolePhoneBook
 
             return -1;
 
-        }
+        }//이름으로 찾기
 
         private int SearchName(string name)
         {
@@ -256,7 +256,7 @@ namespace ConsolePhoneBook
             }
 
             return -1;
-        }
+        }//입력할때 중복확인
         public void DeleteData()
         {
             Console.WriteLine("주소록을 삭제을 시작합니다........");
@@ -298,6 +298,62 @@ namespace ConsolePhoneBook
                 }
                    
 
+            }
+        }//삭제하기
+        public void SortDate()//정렬하기
+        {
+
+            Console.Write("정렬하고 싶은 부분을 선택해주세요 1.일반 2.대학 3.회사 :");
+            int a = int.Parse(Console.ReadLine());
+            string[] arr = new string[curcnt];
+            string[] str = new string[curcnt];
+            if (a == 1)
+            {
+                for(int i=0; i<curcnt; i++)
+                {
+                    arr[i]=infoStorage[i].Name;
+                }
+                Array.Sort(arr);
+                for (int i = 0; i < curcnt; i++)
+                {
+                    str[i] = arr[i];
+                }
+                foreach(string temp in str)
+                {
+                    Console.WriteLine(temp);
+                }
+            }
+            if (a == 2)
+            {
+                for (int i = 0; i < unicurcnt; i++)
+                {
+                    arr[i] = uniinfoStorage[i].Name;
+                }
+                Array.Sort(arr);
+                for (int i = 0; i < unicurcnt; i++)
+                {
+                    str[i] = arr[i];
+                }
+                foreach (string temp in str)
+                {
+                    Console.WriteLine(temp);
+                }
+            }
+            if (a == 2)
+            {
+                for (int i = 0; i < comcurcnt; i++)
+                {
+                    arr[i] = infoStorage[i].Name;
+                }
+                Array.Sort(arr);
+                for (int i = 0; i < comcurcnt; i++)
+                {
+                    str[i] = arr[i];
+                }
+                foreach (string temp in str)
+                {
+                    Console.WriteLine(temp);
+                }
             }
         }
     }
