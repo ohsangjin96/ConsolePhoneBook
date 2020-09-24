@@ -30,6 +30,7 @@ namespace ConsolePhoneBook
         public string Name
         {
             get { return name; }
+          
         }
         public string PhoneNumber
         {
@@ -55,12 +56,12 @@ namespace ConsolePhoneBook
         {
             if (birth != null)
             {
-                string str = "이름:"+name+"\t번호:" +phoneNumber+"\t 생일:" +birth ;
+                string str = "이름:"+name+"\t 번호:" +phoneNumber+"\t 생일:" +birth ;
                 return str;
             }
             else
             {
-                string str= "이름: {name}\t번호: {phoneNumber}\t 생일: 미입력";
+                string str= $"이름: {name}\t번호: {phoneNumber}\t 생일: 미입력";
                 return str;
             }
 

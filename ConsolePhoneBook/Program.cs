@@ -10,28 +10,38 @@ namespace ConsolePhoneBook
     {
         static void Main(string[] args)
         {
-            PhoneBookManager manager = new PhoneBookManager();
+            PhoneBookManager manager = PhoneBookManager.CreatInstance();
+
 
             while (true)
             {
-                manager.ShowMenu();
-                int choice=Utility.ConvertInt(Console.ReadLine());
-
-                switch(choice)
+                try
                 {
+                    manager.ShowMenu();
+                    int choice = Utility.ConvertInt(Console.ReadLine());
 
-                    case 1: manager.InputData();break;
-                    case 2: manager.ListData(); break;
-                    case 3: manager.SearchData(); break;
-                    case 4: manager.DeleteData(); break;
-                    case 5: manager.SortDate();break;
-                    case 6: Console.WriteLine("프로그램을 종료합니다"); return;
+                    switch (choice)
+                    {
+
+                        case 1: manager.InputData(); break;
+                        case 2: manager.ListData(); break;
+                        case 3: manager.SearchData(); break;
+                        case 4: manager.DeleteData(); break;
+                        case 5: manager.SortDate(); break;
+                        case 6: Console.WriteLine("프로그램을 종료합니다"); return;
 
 
-            }
+                    }
 
 
 
+                }
+
+                catch (Exception err)
+                {
+                    Console.WriteLine(err.Message);
+                    Console.WriteLine();
+                }
             }
         }
     }
