@@ -6,11 +6,14 @@ using System.Security.Cryptography;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.IO;
 namespace ConsolePhoneBook
 {
+    [Serializable]
+
     public class PhoneInfo
     {
+      
         string name; //필수
         string phoneNumber; // 필수
         string birth; //선택

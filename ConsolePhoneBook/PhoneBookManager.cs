@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace ConsolePhoneBook
 {
-   
 
+   
+    
     #region 정렬클래스
     class SortName : IComparer //이름 기준 정렬
     {
@@ -32,9 +35,10 @@ namespace ConsolePhoneBook
     #endregion
     public class PhoneBookManager
     {
-        static PhoneBookManager instance;
 
-        private PhoneBookManager(){}
+        static PhoneBookManager instance;
+        BinaryFormatter serializer = new BinaryFormatter();
+        private PhoneBookManager() { }
         public static PhoneBookManager CreatInstance()
         {
             if (instance == null)
@@ -60,7 +64,7 @@ namespace ConsolePhoneBook
             name = Console.ReadLine().Trim().Replace(" ", "");
             if (string.IsNullOrEmpty(name))
             {
-               throw new Exception("이름을 입력해주세요!");
+                throw new Exception("이름을 입력해주세요!");
 
             }
             else
@@ -91,11 +95,11 @@ namespace ConsolePhoneBook
             Console.WriteLine("1.일반 2.대학 3.회사");
             Console.Write("선택 >>");
             int a = int.Parse(Console.ReadLine());
-            if(a>4|| a < 0)
+            if (a > 4 || a < 0)
             {
                 throw new Exception("1.일반 2.대학 3.회사 중에 골라주세요");
-               
-               
+
+
             }
             string name, phonenum, brith, major, company;
             int year;
@@ -111,9 +115,12 @@ namespace ConsolePhoneBook
                 else
                     infoStorage[curcnt++] = new PhoneInfo(name, phonenum, brith);
 
+
             }
             else if (a == 2)
             {
+
+
                 CommonInfo(out name, out phonenum, out brith);
                 Console.Write("전공을 입력하세요: ");
                 major = Console.ReadLine();
@@ -122,13 +129,18 @@ namespace ConsolePhoneBook
 
                 infoStorage[curcnt++] = new PhoneUnivInfo(name, phonenum, brith, major, year);
 
+
             }
             else if (a == 3)
             {
+
+
                 CommonInfo(out name, out phonenum, out brith);
                 Console.Write("회사를 입력하세요: ");
                 company = Console.ReadLine();
                 infoStorage[curcnt++] = new PhoneCompanyInfo(name, phonenum, brith, company);
+
+
             }
 
         }//정보입력
@@ -136,6 +148,7 @@ namespace ConsolePhoneBook
 
         public void ListData()//정보확인
         {
+            BinaryFormatter serializer = new BinaryFormatter();
             if (infoStorage[0] == null)
             {
                 throw new Exception("정보를 먼저 넣어주세요");
@@ -147,10 +160,12 @@ namespace ConsolePhoneBook
                 return;
 
             }
-            for (int i = 0; i < curcnt; i++)
+
+            using (FileStream rs = new FileStream("osj.bin", FileMode.Open))
             {
-                Console.WriteLine(infoStorage[i].ToString());
+                infoStorage = (PhoneInfo[])serializer.Deserialize(rs);
             }
+            
 
         }
 
@@ -190,7 +205,7 @@ namespace ConsolePhoneBook
             int data = SearchName();
             if (data < 0)
             {
-               throw new Exception("검색된 데이터가 없습니다.");
+                throw new Exception("검색된 데이터가 없습니다.");
             }
 
             Console.WriteLine(infoStorage[data].ToString());
@@ -200,7 +215,7 @@ namespace ConsolePhoneBook
 
         private int SearchName()
         {
-           
+
             Console.Write("이름을 입력해주세요 : ");
             string SearchName = Console.ReadLine().Trim().Replace(" ", "");
 
@@ -225,7 +240,7 @@ namespace ConsolePhoneBook
             {
                 if (infoStorage[i].Name.Replace(" ", "").CompareTo(name) == 0)
                 {
-                    
+
                     return i; //검색된 이름의 위치(순서)
                 }
             }
@@ -274,7 +289,7 @@ namespace ConsolePhoneBook
                 throw new Exception("1. 이름ASC  2. 이름DESC 3. 번호ASC 4. 번호 DESC  에서 골라주세요");
 
             }
-            
+
             PhoneInfo[] arr = new PhoneInfo[curcnt];
             Array.Copy(infoStorage, arr, curcnt);
 
@@ -304,8 +319,38 @@ namespace ConsolePhoneBook
 
 
         }
-    }
+        public void SaveData()
+        {
+            
 
+            using (FileStream fs = new FileStream("osj.dat", FileMode.Create))
+            {
+                PhoneInfo[] new_infoStorage = new PhoneInfo[curcnt];
+                new_infoStorage = infoStorage;
+                serializer.Serialize(fs, new_infoStorage);
+                fs.Close();
+            }
+          
+
+        }
+        public void LoadData()
+        {
+            if (File.Exists("osj.dat"))
+            {
+                using (FileStream Load = new FileStream("osj.dat", FileMode.Open))
+                {
+                    infoStorage = (PhoneInfo[])serializer.Deserialize(Load);
+                }
+                int i = 0;
+                while (infoStorage[i] != null)
+                {
+                    i++;
+                    curcnt++;
+                }
+            }
+            Console.WriteLine(curcnt);
+        }
+    }
 }
     
 
