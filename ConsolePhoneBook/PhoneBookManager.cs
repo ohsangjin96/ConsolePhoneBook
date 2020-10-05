@@ -161,10 +161,10 @@ namespace ConsolePhoneBook
 
             }
 
-            using (FileStream rs = new FileStream("osj.bin", FileMode.Open))
-            {
-                infoStorage = (PhoneInfo[])serializer.Deserialize(rs);
-            }
+            for (int i = 0; i < curcnt; i++)
+                {
+                    Console.WriteLine(infoStorage[i].ToString());
+                }
             
 
         }
@@ -345,10 +345,16 @@ namespace ConsolePhoneBook
                 while (infoStorage[i] != null)
                 {
                     i++;
-                    curcnt++;
+                   curcnt++;
+                }
+                foreach(PhoneInfo arr in infoStorage)
+                {
+                    if(arr!=null){
+                        Console.WriteLine(arr.ToString());
+                        }
                 }
             }
-            Console.WriteLine(curcnt);
+           
         }
     }
 }

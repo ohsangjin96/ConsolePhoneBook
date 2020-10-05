@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Convert;
+
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
@@ -14,7 +14,6 @@ namespace ConsolePhoneBook
 
         static void Main(string[] args)
         {
-            PhoneInfo[] infoStorage;
             PhoneBookManager manager = PhoneBookManager.CreatInstance();
             manager.LoadData();
             
@@ -24,7 +23,7 @@ namespace ConsolePhoneBook
                 {
 
                     manager.ShowMenu();
-                    int choice = Utility.ConvertInt(Console.ReadLine());
+                    int choice = int.Parse(Console.ReadLine());
 
                     switch (choice)
                     {
