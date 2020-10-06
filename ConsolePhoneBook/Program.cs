@@ -34,7 +34,7 @@ namespace ConsolePhoneBook
                         case 3: manager.SearchData(); break;
                         case 4: manager.DeleteData(); break;
                         case 5: manager.SortDate(); break;
-                        case 6:manager.SaveData(); Console.WriteLine("프로그램을 종료합니다"); return;
+                        case 6: manager.SaveData(); Console.WriteLine("프로그램을 종료합니다"); return;
 
 
 

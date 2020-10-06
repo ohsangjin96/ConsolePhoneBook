@@ -45,6 +45,17 @@ namespace ConsolePhoneBook
             get { return birth; }
             set { birth = value; }
         }
+
+        public override bool Equals(object obj)
+        {
+            return obj is PhoneInfo info &&
+                   Name == info.Name;
+        }
+
+        public override int GetHashCode()
+        {
+            return  EqualityComparer<string>.Default.GetHashCode(Name);
+        }
         #endregion
         //public virtual void ShowPhoneInfo()
         //{
@@ -71,7 +82,7 @@ namespace ConsolePhoneBook
         }
 
     }
-
+    [Serializable]
     public class PhoneUnivInfo : PhoneInfo 
     {
         string major;
@@ -97,7 +108,7 @@ namespace ConsolePhoneBook
 
         }
     }
-
+    [Serializable]
     public class PhoneCompanyInfo : PhoneInfo
     {
         string company;
